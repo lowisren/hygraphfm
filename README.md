@@ -1,4 +1,4 @@
-# hygraphfm
+# HygraphFM
 Hygraph tutorial for remote sources: [Building the artist content model](https://hygraph.com/blog/hygraphfm-building-artist-schema-remote-source)
 
 

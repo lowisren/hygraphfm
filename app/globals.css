@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
+  --foreground-rgb: 29, 33, 39;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
 }
@@ -11,8 +11,8 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --background-start-rgb: 29, 33, 39;
+    --background-end-rgb: 29, 33, 39;
   }
 }
 
@@ -41,3 +41,10 @@ body {
             hsl(218, 41%, 19%) 80%,
             transparent 100%);
       }
+.all-links > a{
+  text-decoration: underline;
+}
+
+.featured-artist-img {
+  mix-blend-mode: color-dodge
+}

@@ -41,10 +41,18 @@ body {
             hsl(218, 41%, 19%) 80%,
             transparent 100%);
       }
-.all-links > a{
+.all-links > a {
   text-decoration: underline;
 }
 
-.featured-artist-img {
+/* .featured-artist-img {
+  mix-blend-mode: color-dodge
+} */
+
+.fm-mode {
   mix-blend-mode: color-dodge
 }
+
+
+
+

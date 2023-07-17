@@ -39,6 +39,18 @@ async function getArtist(slug) {
                     url
                     width
                   }
+                  promotionalBlock {
+                    ... on Callout {
+                      __typename
+                      id
+                      button {
+                        text
+                        url
+                        id
+                      }
+                      title
+                    }
+                  }
                 }
               }`,
           variables: {
@@ -48,7 +60,7 @@ async function getArtist(slug) {
       }
     );
     const data = await response.json();
-    //console.log(data.data.artist);
+    console.log(data.data.artist);
     return data.data.artist
   }
 
@@ -90,12 +102,14 @@ async function getArtist(slug) {
                 height={artistData.artistImage.height}
                 alt={artistData.artistImage.altText}
                 />
-              </div>
+                <Callout
+                title={artistData.promotionalBlock.title}
+                button={artistData.promotionalBlock.button}
+                />
             </div>
           </div>
-        </section>
-        <Callout />
-        {/* <Hero /> */}
+        </div>
+      </section>
         </main>
     );
   }

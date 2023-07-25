@@ -1,3 +1,5 @@
+//Artist individual page: app/artist/[slug]/page.jsx
+
 import Image from "next/image";
 import Callout from "@/app/components/Callout";
 import CallToAction from "@/app/components/CallToAction";
@@ -87,7 +89,7 @@ async function getArtist(slug) {
     return (
         <main className="flex flex-col justify-between w-full mx-auto bg-gray-600">
              <Image
-                className="w-4/5 mx-auto mt-12 shadow-lg dark:shadow-black/20"
+                className="w-1/2 mx-auto mt-12 shadow-lg dark:shadow-black/20"
                 src={artistData.artistImage.url}
                 width={artistData.artistImage.width}
                 height={artistData.artistImage.height}
@@ -133,6 +135,6 @@ async function getArtist(slug) {
           </div>
         </div>
       </section>
-        </main>
-    );
-  }
+    </main>
+  );
+}

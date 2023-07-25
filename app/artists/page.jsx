@@ -1,11 +1,11 @@
-//Homepage with featured artists: app/page.js
+//Landing page for all artists: app/artists/page.jsx
 
 import Image from 'next/image';
 import Link from "next/link";
 
 //Get all Artists
 
-async function getArtists() {
+async function getAllArtists() {
   const response = await fetch(process.env.HYGRAPH_ENDPOINT, {
     method: 'POST',
     headers: {
@@ -14,7 +14,7 @@ async function getArtists() {
     body: JSON.stringify({
       query: `
       query Artists {
-        artists(last: 6) {
+        artists {
           slug
           artist
           id
@@ -32,14 +32,14 @@ async function getArtists() {
   return json.data.artists;
 }
 
-export default async function Home() {
-  const artists = await getArtists();
+export default async function Artists() {
+  const artists = await getAllArtists();
   //console.log(artists);
   return (
     <main className="flex flex-col justify-between">
       <section className="mb-32 text-center">
       <h2 className="my-12 text-5xl font-bold">
-      Featured <span className="text-[hsl(218,81%,75%)] px-2 py-2">Artists</span>
+      All<span className="text-[hsl(218,81%,75%)] px-2 py-2">Artists</span>
       </h2>
       <div className="grid px-5 lg:gap-xl-12 gap-x-6 md:grid-cols-2 lg:grid-cols-4">
         {artists.map((artist) => {

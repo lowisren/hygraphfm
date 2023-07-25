@@ -1,3 +1,5 @@
+// Navbar component: app/components/Navbar.js
+
 'use client';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -7,24 +9,19 @@ import { useState } from 'react';
 export default function Navbar() {
   const [navbar, setNavbar] = useState(false);
   return (
-    <div>
-      <Head>
-        <title>Create Next Responsive Navbar With Tailwind CSS</title>
-        <meta
-          name="description"
-          content="Create Next JS Responsive Menu with Tailwind CSS"
-        />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <nav className="w-full bg-gray-800 shadow">
+      <nav aria-label="Hygraph FM Menu" role="navigation" className="w-full bg-gray-800 shadow">
         <div className="justify-between px-4 mx-auto lg:max-w-7xl md:items-center md:flex md:px-8">
           <div>
             <div className="flex items-center justify-between py-3 md:py-5 md:block">
-              <a href="#">
+              <Link href="/">
                 <h2 className="text-3xl font-bold text-[hsl(218,81%,75%)]">HyFM</h2>
-              </a>
+              </Link>
               <div className="md:hidden">
                 <button
+                  aria-label="Toggle Hamburger menu"
+                  aria-expanded="false"
+                  aria-controls="main-menu"
+                  aria-haspopup="true"
                   className="p-2 text-gray-700 rounded-md outline-none focus:border-gray-400 focus:border"
                   onClick={() => setNavbar(!navbar)}
                 >
@@ -67,24 +64,27 @@ export default function Navbar() {
                 navbar ? 'block' : 'hidden'
               }`}
             >
-              <ul className="items-center justify-center space-y-8 md:flex md:space-x-6 md:space-y-0">
+              <ul 
+              role="menubar" 
+              aria-label="HygraphFM Menu Bar" 
+              className="items-center justify-center space-y-8 md:flex md:space-x-6 md:space-y-0">
                 <li className="text-white">
-                  <Link href="/">
+                  <Link role="menuitem" href="/">
                     Home
                   </Link>
                 </li>
                 <li className="text-white">
-                  <Link href="/artists">
+                  <Link role="menuitem" href="/artists">
                     Artists
                   </Link>
                 </li>
                 <li className="text-white">
-                  <Link href="/login">
+                  <Link role="menuitem" href="/login">
                     Login
                   </Link>
                 </li>
                 <li className="text-white">
-                  <Link href="/contact">
+                  <Link role="menuitem" href="/contact">
                     Contact US          
                   </Link>
                 </li>
@@ -93,6 +93,5 @@ export default function Navbar() {
           </div>
         </div>
       </nav>
-    </div>
   );
 }

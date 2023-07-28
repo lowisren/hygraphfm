@@ -1,15 +1,15 @@
-//Landing page for all artists: app/artists/page.jsx
+  // Landing page for all artists: app/artists/page.jsx
 
-import Image from 'next/image';
-import Link from "next/link";
+import Image from 'next/image'
+import Link from 'next/link'
 
-//Get all Artists
+// Get all Artists
 
-async function getAllArtists() {
+async function getAllArtists () {
   const response = await fetch(process.env.HYGRAPH_ENDPOINT, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify({
       query: `
@@ -25,16 +25,16 @@ async function getAllArtists() {
             width
           }
         }
-      }`,
-    }),
-  });
-  const json = await response.json();
-  return json.data.artists;
+      }`
+    })
+  })
+  const json = await response.json()
+  return json.data.artists
 }
 
-export default async function Artists() {
-  const artists = await getAllArtists();
-  //console.log(artists);
+export default async function Artists () {
+  const artists = await getAllArtists()
+  // console.log(artists);
   return (
     <main className="flex flex-col justify-between">
       <section className="mb-32 text-center">
@@ -52,14 +52,14 @@ export default async function Artists() {
                 height={artist.artistImage.height}
                 alt={artist.artistImage.altText}
               />
-              <Link 
-                className="text-xl font-bold text-white underline" 
+              <Link
+                className="text-xl font-bold text-white underline"
                 href={`/artist/${artist.slug}`}>
                   {artist.artist}
               </Link>
             </div>
-          );  
-          })}
+          )
+        })}
       </div>
     </section>
   </main>

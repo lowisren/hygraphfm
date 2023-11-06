@@ -1,11 +1,11 @@
-  // Landing page for all artists: app/artists/page.jsx
-
+'use client'
+// Landing page for all artists: app/artists/page.jsx
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 // Get all Artists
-
-async function getAllArtists () {
+async function getAllArtists (pageNumber, queryParams) {
   const response = await fetch(process.env.HYGRAPH_ENDPOINT, {
     method: 'POST',
     headers: {
@@ -14,7 +14,7 @@ async function getAllArtists () {
     body: JSON.stringify({
       query: `
       query Artists {
-        artists {
+        artists(first: 8, skip: ${(pageNumber - 1) * 8}, ${queryParams}) {
           slug
           artist
           id
@@ -33,8 +33,11 @@ async function getAllArtists () {
 }
 
 export default async function Artists () {
-  const artists = await getAllArtists()
-  // console.log(artists);
+  const router = useRouter()
+  const pageNumber = router.query.page || 1
+  const queryParams = router.query.search || ''
+
+  const artists = await getAllArtists(pageNumber, queryParams)
   return (
     <main className="flex flex-col justify-between">
       <section className="mb-32 text-center">
@@ -62,6 +65,8 @@ export default async function Artists () {
         })}
       </div>
     </section>
+    <button onClick={() => router.push(`?page=${pageNumber - 1}&search=${queryParams}`)}>Previous</button>
+    <button onClick={() => router.push(`?page=${pageNumber + 1}&search=${queryParams}`)}>Next</button>
   </main>
   )
 }

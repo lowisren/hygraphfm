@@ -43,7 +43,6 @@ async function getAllArtists(pageNumber) {
     }),
   });
   const json = await response.json();
-  console.log(json);
   return json.data.artistsConnection;
 }
 
@@ -51,14 +50,16 @@ export default async function Artists({ params }) {
   const { pageNumber } = params;
   const {edges, pageInfo, aggregate} = await getAllArtists(pageNumber);
     const artists = edges.map((edge) => edge.node);
-    console.log({artists, pageInfo});
+
     const {pageSize, hasNextPage, hasPreviousPage} = pageInfo;
     const {count} = aggregate;
+    // get total number of pages
     const pageTotal = Math.ceil(count / pageSize);
+    // convert pageTotal to an array with page numbers (page number is array iterator + 1)
     const pageArray = Array.from(Array(pageTotal).keys()).map(i => i+1)
 
-    console.log({pageArray});
-  return (
+
+    return (
     <main className="flex flex-col justify-between">
       <section className="mb-32 text-center">
         <h2 className="my-12 text-5xl font-bold">
@@ -88,19 +89,19 @@ export default async function Artists({ params }) {
             );
           })}
         </div>
-        {pageInfo.hasPreviousPage && (
+        {hasPreviousPage && (
         <Link href={`/artists/${Number(pageNumber) - 1}`}>
           Previous
         </Link>
       )}    
       {pageArray.map((page) => {
             return (
-                <Link key={page} href={`/artists/${page}`}>
+                <Link className={`${(page == pageNumber) ? 'current' : ''}`} key={page} href={`/artists/${page}`}>
                 {page}
                 </Link>
             )
       })}
-        {pageInfo.hasNextPage && (
+        {hasNextPage && (
             <Link  href={`/artists/${Number(pageNumber) + 1}`}>
             Next
             </Link>

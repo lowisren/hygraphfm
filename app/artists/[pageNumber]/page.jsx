@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 // Get all Artists
-async function getAllArtists(pageNumber, queryParams) {
+async function getAllArtists(pageNumber) {
   const response = await fetch(process.env.HYGRAPH_ENDPOINT, {
     method: "POST",
     headers: {
@@ -12,13 +12,16 @@ async function getAllArtists(pageNumber, queryParams) {
     body: JSON.stringify({
       query: `
             query MyQuery {
-                artistsConnection(first: 8, skip: ${(pageNumber - 1) * 8}) {
+                artistsConnection(first: 3, skip: ${(pageNumber - 1) * 3}) {
                   pageInfo {
-                    endCursor
                     hasNextPage
                     hasPreviousPage
                     pageSize
                     startCursor
+                    endCursor
+                  }
+                  aggregate {
+                    count
                   }
                   edges {
                     node {
@@ -45,10 +48,16 @@ async function getAllArtists(pageNumber, queryParams) {
 }
 
 export default async function Artists({ params }) {
-  const { pageNumber = 1 } = params;
-  const {edges, pageInfo} = await getAllArtists(pageNumber);
+  const { pageNumber } = params;
+  const {edges, pageInfo, aggregate} = await getAllArtists(pageNumber);
     const artists = edges.map((edge) => edge.node);
     console.log({artists, pageInfo});
+    const {pageSize, hasNextPage, hasPreviousPage} = pageInfo;
+    const {count} = aggregate;
+    const pageTotal = Math.ceil(count / pageSize);
+    const pageArray = Array.from(Array(pageTotal).keys()).map(i => i+1)
+
+    console.log({pageArray});
   return (
     <main className="flex flex-col justify-between">
       <section className="mb-32 text-center">
@@ -79,18 +88,26 @@ export default async function Artists({ params }) {
             );
           })}
         </div>
-      </section>
-      {pageInfo.hasPreviousPage && (
+        {pageInfo.hasPreviousPage && (
         <Link href={`/artists/${Number(pageNumber) - 1}`}>
           Previous
         </Link>
       )}    
+      {pageArray.map((page) => {
+            return (
+                <Link key={page} href={`/artists/${page}`}>
+                {page}
+                </Link>
+            )
+      })}
         {pageInfo.hasNextPage && (
-            <Link href={`/artists/${Number(pageNumber) + 1}`}>
+            <Link  href={`/artists/${Number(pageNumber) + 1}`}>
             Next
             </Link>
         )
     }
+      </section>
+      
     </main>
   );
 }

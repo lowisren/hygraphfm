@@ -65,7 +65,7 @@ export default async function Artists({ params }) {
         <h2 className="my-12 text-5xl font-bold">
           All<span className="text-[hsl(218,81%,75%)] px-2 py-2">Artists</span>
         </h2>
-        <div className="grid px-5 lg:gap-xl-12 gap-x-6 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid px-5 lg:gap-xl-12 gap-x-6 md:grid-cols-3 lg:grid-cols-3">
           {artists.map((artist) => {
             return (
               <div
@@ -89,24 +89,44 @@ export default async function Artists({ params }) {
             );
           })}
         </div>
-        {hasPreviousPage && (
-        <Link href={`/artists/${Number(pageNumber) - 1}`}>
-          Previous
-        </Link>
-      )}    
-      {pageArray.map((page) => {
+        <ul className="flex items-center justify-center py-4 font-bold list-style-none">
+          {hasPreviousPage && (
+            <li>
+              <Link
+                className="relative block rounded bg-transparent px-3 py-1.5 text-md text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white"
+                href={`/artists/${Number(pageNumber) - 1}`}
+              >
+                Previous
+              </Link>
+            </li>
+          )}
+          {pageArray.map((page) => {
             return (
-                <Link className={`${(page == pageNumber) ? 'current' : ''}`} key={page} href={`/artists/${page}`}>
-                {page}
+              <li key={page}>
+                <Link
+                  className={`relative block rounded bg-transparent px-3 py-1.5 text-md transition-all duration-300 hover:bg-neutral-100 hover:text-neutral-800 ${
+                    Number(pageNumber) === page
+                      ? "text-white bg-neutral-600"
+                      : "text-neutral-600 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white"
+                  }`}
+                  href={`/artists/${page}`}
+                >
+                  {page}
                 </Link>
-            )
-      })}
-        {hasNextPage && (
-            <Link  href={`/artists/${Number(pageNumber) + 1}`}>
-            Next
-            </Link>
-        )
-    }
+              </li>
+            );
+          })}
+          {hasNextPage && (
+            <li>
+              <Link
+                className="relative block rounded bg-transparent px-3 py-1.5 text-md text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white"
+                href={`/artists/${Number(pageNumber) + 1}`}
+              >
+                Next
+              </Link>
+            </li>
+          )}
+        </ul>
       </section>
       
     </main>

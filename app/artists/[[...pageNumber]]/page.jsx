@@ -47,7 +47,8 @@ async function getAllArtists(pageNumber) {
 }
 
 export default async function Artists({ params }) {
-  const { pageNumber } = params;
+  const { pageNumber=1 } = params;
+  console.log({params, pageNumber})
   const {edges, pageInfo, aggregate} = await getAllArtists(pageNumber);
     const artists = edges.map((edge) => edge.node);
 

@@ -12,7 +12,7 @@ async function getAllArtists(pageNumber) {
     body: JSON.stringify({
       query: `
             query MyQuery {
-                artistsConnection(first: 3, skip: ${(pageNumber - 1) * 3}) {
+                artistsConnection(first: 3, skip: ${(pageNumber - 1) * 3}, orderBy: artist_ASC) {
                   pageInfo {
                     hasNextPage
                     hasPreviousPage
@@ -33,8 +33,7 @@ async function getAllArtists(pageNumber) {
                           url
                           height
                           width
-                        }
-              
+                        }              
                     }
                   }
                 }
@@ -47,7 +46,8 @@ async function getAllArtists(pageNumber) {
 }
 
 export default async function Artists({ params }) {
-  const { pageNumber } = params;
+  const { pageNumber=1 } = params;
+  //console.log(params,pageNumber);
   const {edges, pageInfo, aggregate} = await getAllArtists(pageNumber);
     const artists = edges.map((edge) => edge.node);
 
@@ -73,7 +73,7 @@ export default async function Artists({ params }) {
                 className="px-2 pb-5 my-12 rounded-lg lg:mb-0 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] background-radial-gradient"
               >
                 <Image
-                  className="mx-auto my-6 rounded-lg shadow-lg dark:shadow-black/20 w-[350px] h-[175px]"
+                  className="mx-auto my-6 rounded-lg shadow-lg dark:shadow-black/20 w-[550px] h-[275px]"
                   src={artist.artistImage.url}
                   width={artist.artistImage.width}
                   height={artist.artistImage.height}
@@ -104,8 +104,8 @@ export default async function Artists({ params }) {
             return (
               <li key={page}>
                 <Link
-                  className={`relative block rounded bg-transparent px-3 py-1.5 text-md transition-all duration-300 hover:bg-neutral-100 hover:text-neutral-800 ${
-                    Number(pageNumber) === page
+                  className={`relative block rounded bg-transparent px-3 py-1.5 text-md transition-all duration-300 hover:bg-neutral-100 hover:text-neutral-800 
+                  ${Number(pageNumber) === page
                       ? "text-white bg-neutral-600"
                       : "text-neutral-600 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white"
                   }`}

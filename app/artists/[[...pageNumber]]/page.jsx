@@ -46,9 +46,9 @@ async function getAllArtists(pageNumber) {
   return json.data.artistsConnection;
 }
 
-export default async function Artists({ params }) {
-  const { pageNumber=1 } = params;
-  console.log({params, pageNumber})
+export default async function Artists({ params, searchParams }) {
+  const pageNumber = searchParams.page || 1
+  console.log({params, pageNumber, searchParams})
   const {edges, pageInfo, aggregate} = await getAllArtists(pageNumber);
     const artists = edges.map((edge) => edge.node);
 
@@ -91,19 +91,19 @@ export default async function Artists({ params }) {
           })}
         </div>
         {hasPreviousPage && (
-        <Link href={`/artists/${Number(pageNumber) - 1}`}>
+        <Link href={`/artists/?page=${Number(pageNumber) - 1}`}>
           Previous
         </Link>
       )}    
       {pageArray.map((page) => {
             return (
-                <Link className={`${(page == pageNumber) ? 'current' : ''}`} key={page} href={`/artists/${page}`}>
+                <Link className={`${(page == pageNumber) ? 'current' : ''}`} key={page} href={`/artists/?page=${page}`}>
                 {page}
                 </Link>
             )
       })}
         {hasNextPage && (
-            <Link  href={`/artists/${Number(pageNumber) + 1}`}>
+            <Link  href={`/artists/?page=${Number(pageNumber) + 1}`}>
             Next
             </Link>
         )

@@ -1,3 +1,4 @@
+// location: /artists/[[...pageNumber]]/page.jsx
 // Landing page for all artists: app/artists/page.jsx
 import Image from "next/image";
 import Link from "next/link";
@@ -57,8 +58,7 @@ export default async function Artists({ params }) {
     const pageTotal = Math.ceil(count / pageSize);
     // convert pageTotal to an array with page numbers (page number is array iterator + 1)
     const pageArray = Array.from(Array(pageTotal).keys()).map(i => i+1)
-
-
+  //console.log(artists);
     return (
     <main className="flex flex-col justify-between">
       <section className="mb-32 text-center">
